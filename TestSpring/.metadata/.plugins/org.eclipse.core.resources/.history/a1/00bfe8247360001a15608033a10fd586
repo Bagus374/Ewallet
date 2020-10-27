@@ -1,0 +1,16 @@
+package com.enigma.ewallet.repositories;
+
+
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.enigma.ewallet.entities.Transaction;
+
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+	
+	List<Transaction> findByFromAndTransactionDate(String accountName, Date date);
+}

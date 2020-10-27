@@ -1,0 +1,5 @@
+package com.enigma.ewallet.response;
+
+public class TransactionResponse {
+
+}

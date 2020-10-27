@@ -1,0 +1,66 @@
+package com.enigma.ewallet;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.enigma.ewallet.controller.AccountController;
+import com.enigma.ewallet.dto.AccountDto;
+import com.enigma.ewallet.repositories.AccountRepository;
+import com.enigma.ewallet.services.AccountServices;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(AccountController.class)
+public class AccountRestControllerTest {
+	
+	@Autowired
+	private MockMvc mvc;
+	
+	@MockBean
+	private AccountServices services;
+	
+	
+	@MockBean
+	private AccountRepository repo;
+	
+	@Test
+	public void givenAccountDto_whenGetAccountto_thenReturnJSonArray() throws Exception{
+		
+		BigDecimal balance = new BigDecimal(3000000);
+		List<AccountDto> listDto = new ArrayList<AccountDto>();
+		AccountDto account = new AccountDto();
+		account.setAccount("123456");
+		account.setName("Fadhilah");
+		account.setBalance(balance);
+		account.setPoint(0.0);
+		
+		listDto.add(account);
+		
+		given(services.findByName("Fadhilah")).willReturn(listDto);
+		
+		mvc.perform(get("/todos")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.length()", is(1)))
+				.andExpect(jsonPath("$[0].description", is("Merdeka")));
+	}
+		
+}

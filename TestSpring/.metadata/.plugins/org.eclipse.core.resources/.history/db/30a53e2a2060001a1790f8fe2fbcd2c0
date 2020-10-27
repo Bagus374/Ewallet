@@ -1,0 +1,47 @@
+package com.enigma.ewallet.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.enigma.ewallet.dto.AccountDto;
+import com.enigma.ewallet.dto.AccountRequest;
+import com.enigma.ewallet.services.AccountServices;
+
+@RestController
+@EnableAutoConfiguration
+public class AccountController {
+	
+	@Autowired
+	private AccountServices services;
+	
+	@GetMapping("account/{accountNumber}")
+	public AccountDto getAccountByAccount(@PathVariable String accountNumber)
+	{
+		return services.getAccountByAccount(accountNumber);
+	}
+	
+	@PostMapping("account")
+	public AccountDto saveAccount(@Valid @RequestBody AccountRequest request, 
+			UriComponentsBuilder builder) {
+		return services.save(request);
+	}
+	
+	@GetMapping("account/search")
+	public List<AccountDto> searchAccountByName(@RequestParam String name)
+	{
+		return services.findByName(name);
+	}
+
+
+}

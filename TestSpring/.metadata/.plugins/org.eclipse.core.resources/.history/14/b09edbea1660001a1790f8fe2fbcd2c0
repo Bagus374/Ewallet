@@ -1,0 +1,26 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+public class AccountRequest {
+
+
+	private Integer account;
+
+	private String name;
+	
+
+	private BigDecimal balance;
+
+	
+	public AccountRequest()
+	{
+		
+	}
+	
+	
+
+	
+
+	
+}

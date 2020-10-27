@@ -1,0 +1,87 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+import com.enigma.ewallet.entities.Account;
+import com.enigma.ewallet.enums.TypeTransaction;
+
+public class TransactionDto {
+	private Long id;
+
+	private Date transactionDate;
+
+	private TypeTransaction type;
+	
+	private String from;
+	
+	private String to;
+	
+	private BigDecimal amount;
+	
+	private String description;
+	
+//	private Account account;
+	
+	public TransactionDto(Long id, Date transactionDate, TypeTransaction type, String from, String to,
+			BigDecimal amount, String description) {
+		super();
+		this.id = id;
+		this.transactionDate = transactionDate;
+		this.type = type;
+		this.from = from;
+		this.to = to;
+		this.amount = amount;
+		this.description = description;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Date getTransactionDate() {
+		return transactionDate;
+	}
+	public void setTransactionDate(Date transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+	public TypeTransaction getType() {
+		return type;
+	}
+	public void setType(TypeTransaction type) {
+		this.type = type;
+	}
+	public String getFrom() {
+		return from;
+	}
+	public void setFrom(String from) {
+		this.from = from;
+	}
+	public String getTo() {
+		return to;
+	}
+	public void setTo(String to) {
+		this.to = to;
+	}
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Account getAccount() {
+		return account;
+	}
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	
+	
+}

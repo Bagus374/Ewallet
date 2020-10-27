@@ -1,0 +1,58 @@
+package com.enigma.ewallet.controller;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.enigma.ewallet.dto.AccountDto;
+import com.enigma.ewallet.dto.AccountUpdate;
+import com.enigma.ewallet.dto.AddBalanceRequest;
+import com.enigma.ewallet.dto.TransactionDto;
+import com.enigma.ewallet.exceptions.CustomErrorResponse;
+import com.enigma.ewallet.services.AccountServices;
+import com.enigma.ewallet.services.TransactionServices;
+
+@RestController
+@EnableAutoConfiguration
+@Validated
+public class TransactionController {
+	
+	@Autowired
+	private TransactionServices services;
+	
+	@GetMapping("transaction/search")
+	public List<TransactionDto> getListTransactionByAccountNumberOrDate(@RequestParam String accountNumber, String date)
+	{
+		return services.getListTransactionByAccountNumberOrDate(accountNumber, date);
+	}
+	
+	@PostMapping("account/balance")
+	public CustomErrorResponse postBalance(@Valid @RequestBody AddBalanceRequest request, 
+			UriComponentsBuilder builder) {
+		services.postBalance(request);
+		
+		CustomErrorResponse message = new CustomErrorResponse();
+		message.setTimestamp(LocalDateTime.now());
+		message.setStatus(HttpStatus.OK.value());
+		message.setMessage("add balance");
+		message.setPath("account/balance");
+		
+		return message;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.enigma.ewallet.dto;
+
+public class AccountRequest {
+
+}

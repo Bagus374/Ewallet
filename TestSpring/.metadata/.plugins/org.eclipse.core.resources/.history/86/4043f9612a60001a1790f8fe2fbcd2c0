@@ -1,0 +1,22 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+
+import com.enigma.ewallet.enums.TypeTransaction;
+
+public class TransactionDto {
+	private Long id;
+
+	private Date transactionDate;
+
+	private TypeTransaction type;
+	
+	private String from;
+	
+	private String to;
+	
+	private BigDecimal amount;
+	private String description;
+}

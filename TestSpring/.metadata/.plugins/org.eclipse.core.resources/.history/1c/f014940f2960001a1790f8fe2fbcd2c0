@@ -1,0 +1,5 @@
+package com.enigma.ewallet.entities;
+
+public class Transaction {
+
+}

@@ -1,0 +1,39 @@
+package com.enigma.ewallet.entities;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.enigma.ewallet.enums.TypeTransaction;
+
+@Entity
+@Table(name = "tracsations")
+public class Transaction {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(name = "transaction_date")
+	private Date transactionDate;
+
+	@Enumerated(EnumType.STRING)
+	private TypeTransaction type;
+	
+	@Column(name = "froms")
+	private String from;
+	
+	@Column(name = "to")
+	private String to;
+	
+	@Column(name = "amount")
+	private BigDecimal amount;
+
+}

@@ -1,0 +1,110 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+public class AccountRequest {
+
+	private Long id;
+
+
+	private Integer account;
+
+	private String name;
+	
+
+	private BigDecimal balance;
+	
+
+	private Double point;
+	
+
+	private Integer status;
+	
+	public AccountDto()
+	{
+		
+	}
+	
+	
+
+	public AccountDto(Integer account, String name, BigDecimal balance, Double point, Integer status) {
+		super();
+		this.account = account;
+		this.name = name;
+		this.balance = balance;
+		this.point = point;
+		this.status = status;
+	}
+
+
+
+	public AccountDto(Long id, Integer account, String name, BigDecimal balance, Double point, Integer status) {
+		super();
+		this.id = id;
+		this.account = account;
+		this.name = name;
+		this.balance = balance;
+		this.point = point;
+		this.status = status;
+	}
+
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getAccount() {
+		return account;
+	}
+
+	public void setAccount(Integer account) {
+		this.account = account;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+
+	public Double getPoint() {
+		return point;
+	}
+
+	public void setPoint(Double point) {
+		this.point = point;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+	
+
+
+	
+}
+package com.enigma.ewallet.dto;
+
+public class AccountRequest {
+
+}

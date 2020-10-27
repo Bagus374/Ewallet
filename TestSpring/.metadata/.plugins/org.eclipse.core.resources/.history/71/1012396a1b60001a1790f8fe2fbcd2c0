@@ -1,0 +1,5 @@
+package com.enigma.ewallet.exceptions;
+
+public class NotFoundException {
+
+}

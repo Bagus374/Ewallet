@@ -1,0 +1,62 @@
+package com.enigma.ewallet.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.enigma.ewallet.dto.AccountDto;
+import com.enigma.ewallet.dto.AccountRequest;
+import com.enigma.ewallet.entities.Account;
+import com.enigma.ewallet.exceptions.NotFoundException;
+import com.enigma.ewallet.repositories.AccountRepository;
+
+@Service
+public class AccountServices {
+	
+	@Autowired
+	private AccountRepository repo;
+	
+	public AccountDto save(AccountRequest request) {
+		ModelMapper mapper = new ModelMapper();
+		Account account = mapper.map(request, Account.class);
+		account.setPoint(0.0);
+		account.setStatus(0);
+		repo.save(account);
+		
+		ModelMapper mapper2 = new ModelMapper();
+		AccountDto accountDto = mapper2.map(account, AccountDto.class);
+		
+		return accountDto;
+	}
+
+	public AccountDto getAccountByAccount(String accountNumber) {
+		Account account = repo.findByAccount(accountNumber);
+		
+		if(account.getAccount().isEmpty())
+		{
+			throw new NotFoundException("Account Number : " + accountNumber + " Not Found");
+		}
+		ModelMapper mapper = new ModelMapper();
+		AccountDto accountDto = mapper.map(account, AccountDto.class);
+
+		return accountDto;
+	}
+
+	public List<AccountDto> findByName(String name) {
+		
+		List<AccountDto> listAccount = new ArrayList<AccountDto>();
+		ModelMapper mapper = new ModelMapper();
+		repo.findByName(name).forEach(account -> {
+			AccountDto accountDto = mapper.map(account, AccountDto.class);
+			listAccount.add(accountDto);
+		});
+		
+		return listAccount;
+		
+	}
+
+
+}

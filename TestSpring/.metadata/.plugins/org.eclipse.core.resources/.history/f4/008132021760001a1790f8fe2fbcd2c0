@@ -1,0 +1,84 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+public class AccountRequest {
+	
+	private Long id;
+
+	private Integer account;
+
+	private String name;
+	
+
+	private BigDecimal balance;
+
+	
+	public AccountRequest()
+	{
+		
+	}
+
+
+	public AccountRequest(Long id, Integer account, String name, BigDecimal balance) {
+		super();
+		this.id = id;
+		this.account = account;
+		this.name = name;
+		this.balance = balance;
+	}
+
+
+	public AccountRequest(Integer account, String name, BigDecimal balance) {
+		super();
+		this.account = account;
+		this.name = name;
+		this.balance = balance;
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public Integer getAccount() {
+		return account;
+	}
+
+
+	public void setAccount(Integer account) {
+		this.account = account;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+	
+	
+
+	
+
+	
+}

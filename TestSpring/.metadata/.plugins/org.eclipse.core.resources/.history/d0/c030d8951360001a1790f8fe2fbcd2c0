@@ -1,0 +1,84 @@
+package com.enigma.ewallet.entities;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(name = "account", length = 500)
+	private Integer account;
+
+	@Column(name = "name", length = 500)
+	private String name;
+	
+	@Column(name = "balance")
+	private Double balance;
+	
+	@Column(name = "point")
+	private Double point;
+	
+	@Column(name = "status")
+	private Integer status;
+	
+	public Account()
+	{
+		
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getAccount() {
+		return account;
+	}
+
+	public void setAccount(Integer account) {
+		this.account = account;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	public Double getPoint() {
+		return point;
+	}
+
+	public void setPoint(Double point) {
+		this.point = point;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+	
+
+	
+}

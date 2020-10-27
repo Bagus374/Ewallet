@@ -1,0 +1,23 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+public class PulsaRequest {
+	@NotEmpty(message = "Account may not be empty")
+	@Size(min = 6, max =6, message = "Account must be 6 length") 
+	private String account;
+	
+	@NotEmpty(message = "Account to may not be empty")
+	@Size(min = 6, max =6, message = "Account must be 6 length") 
+	private String to;
+	
+	@NotNull(message = "Ammount may not be empty")
+	private BigDecimal ammount;
+	
+	@NotEmpty(message = "Description may not be empty")
+	private String description;
+}

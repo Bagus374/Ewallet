@@ -1,0 +1,5 @@
+package com.enigma.ewallet.enums;
+
+public enum Type {
+	balance, transfer, point, pulsa
+}

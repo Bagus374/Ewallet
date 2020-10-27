@@ -1,0 +1,129 @@
+package com.enigma.ewallet.services;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.enigma.ewallet.dto.AccountDto;
+import com.enigma.ewallet.dto.AccountUpdate;
+import com.enigma.ewallet.dto.AddBalanceRequest;
+import com.enigma.ewallet.dto.AddTransferRequest;
+import com.enigma.ewallet.dto.PulsaRequest;
+import com.enigma.ewallet.dto.TransactionDto;
+import com.enigma.ewallet.entities.Account;
+import com.enigma.ewallet.entities.Transaction;
+import com.enigma.ewallet.enums.TypeTransaction;
+import com.enigma.ewallet.exceptions.NotFoundException;
+import com.enigma.ewallet.repositories.AccountRepository;
+import com.enigma.ewallet.repositories.TransactionRepository;
+import com.enigma.ewallet.utils.utilsDate;
+
+@Service
+public class TransactionServices {
+	
+	@Autowired
+	private TransactionRepository repo;
+	
+	@Autowired
+	private AccountServices services;
+	
+	private utilsDate date = new utilsDate();
+	
+	public TransactionDto convertTransactionDto(Transaction transaction)
+	{
+		ModelMapper modelMapper = new ModelMapper();
+		TransactionDto dto = modelMapper.map(transaction, TransactionDto.class);
+		return dto;
+	}
+	
+	public void checkBalance(AccountDto account, BigDecimal ammount)
+	{
+		if(account.getBalance().compareTo(ammount) < 0)
+		{
+			throw new NotFoundException("Account : "+account.getAccount()+" not have sufficient");
+		}
+	}
+	
+	public Double getPoint(BigDecimal ammount)
+	{
+		Double point = 0.0;
+		BigDecimal minimum = new BigDecimal(10000);
+		BigDecimal percent = new BigDecimal(0.1);
+		if(ammount.compareTo(minimum) > 0)
+		{
+			point = ammount.multiply(percent).doubleValue();
+		}
+		
+		return point;
+	}
+
+	public List<TransactionDto> getListTransactionByAccountNumberAndDate(String accountNumber, Date date) {
+		List<TransactionDto> list = new ArrayList<TransactionDto>();
+		repo.findByFromAndTransactionDate(accountNumber, date).forEach(transaction -> {
+			TransactionDto dto = convertTransactionDto(transaction);
+			list.add(dto);
+		});
+		
+		return list;
+	}
+	
+	
+	public void updateAddBalance(String account, BigDecimal ammount)
+	{
+		AccountUpdate updateBalance = new AccountUpdate();
+		updateBalance.setAccount(account);
+		updateBalance.setBalance(ammount);
+		services.update(updateBalance);
+	}
+	
+
+	public void postBalance(@Valid AddBalanceRequest request) {
+		
+		AccountDto account = services.getAccountByAccount(request.getAccount());
+		updateAddBalance(request.getAccount(), account.getBalance());
+		
+		Transaction transaction = new Transaction(date.dateNow(), TypeTransaction.balance, request.getAccount(), request.getAmmount(), "add balance");
+		repo.save(transaction);
+		
+	}
+
+	public void postTransfer(@Valid AddTransferRequest request) {
+		AccountDto account = services.getAccountByAccount(request.getAccount());
+		services.getAccountByAccount(request.getTo());
+		
+		checkBalance(account, request.getAmmount());
+		
+		services.updateTransfer(request);
+		
+		updateAddBalance(request.getTo(), request.getAmmount());
+		
+		Transaction transaction = new Transaction(date.dateNow(), TypeTransaction.transfer, request.getAccount(), request.getTo(), request.getAmmount(), request.getDescription());
+		repo.save(transaction);
+	}
+
+	public String postPulsa(@Valid PulsaRequest request) {
+		AccountDto accountDto = services.getAccountByAccount(request.getAccount());
+		
+		checkBalance(accountDto, request.getAmmount());
+		
+		Double point = getPoint(request.getAmmount());
+		
+		Account account = services.convertAccount(accountDto);
+		account.setPoint(account.getPoint()+point);
+		services.updateAccount(account);
+		
+		String message = "pulsa to "+request.getNohp()+" success , you got "+ point +" point";
+		
+		return message;
+	}
+
+	
+
+}

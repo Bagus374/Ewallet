@@ -1,0 +1,66 @@
+package com.enigma.ewallet;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.enigma.ewallet.entities.Account;
+import com.enigma.ewallet.repositories.AccountRepository;
+import com.enigma.ewallet.services.AccountServices;
+
+@RunWith(SpringRunner.class)
+public class AccountServiceTest {
+	@TestConfiguration
+	static class AccountServiceContextConfiguration{
+		@Bean
+		public AccountServices  todoServices() {
+			return new AccountServices();
+		}
+	}
+	
+	@Autowired
+	private AccountServices services;
+	
+	@MockBean
+	private AccountRepository repo;
+	
+	
+	@Before
+	public void setup() {
+		BigDecimal balance = new BigDecimal(3000000);
+		
+		
+		Account account = new Account();
+		account.setAccount("123456");
+		account.setName("Fadhilah");
+		account.setBalance(balance);
+		account.setPoint(0.0);
+		
+		
+		List<Account> listAccount = new ArrayList<Account>();
+		listAccount.add(account);
+		
+		Mockito.when(repo.findByDescriptionOrTitle("Merde", "Merdeka")).thenReturn(listTodo);
+		Mockito.when(repo.findAll()).thenReturn(listTodo);
+		Mockito.when(repo.findByDescriptionContainsAllIgnoreCase("Merdeka")).thenReturn(listTodo);
+		Mockito.when(repo.findByDescriptionContainsOrTitleContainsAllIgnoreCase("Merdeka","Merdeka")).thenReturn(listTodo);
+		Mockito.when(repo.findTop3ByDescriptionContainsAllIgnoreCase("Merdeka")).thenReturn(listTodo);
+		Mockito.when(repo.findByCreationDateTime(ConvertUtils.convertDateToLocalDateTime(date))).thenReturn(listTodo);
+		
+	}
+	
+}

@@ -1,0 +1,71 @@
+package com.enigma.ewallet.controller;
+
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.enigma.ewallet.dto.AccountDto;
+import com.enigma.ewallet.dto.AccountUpdate;
+import com.enigma.ewallet.dto.AddBalanceRequest;
+import com.enigma.ewallet.dto.AddTransferRequest;
+import com.enigma.ewallet.dto.TransactionDto;
+import com.enigma.ewallet.exceptions.CustomErrorResponse;
+import com.enigma.ewallet.services.AccountServices;
+import com.enigma.ewallet.services.TransactionServices;
+
+@RestController
+@EnableAutoConfiguration
+@Validated
+public class TransactionController {
+	
+	@Autowired
+	private TransactionServices services;
+	
+	@GetMapping("transaction/search")
+	public List<TransactionDto> getListTransactionByAccountNumberAndDate(@RequestParam String accountNumber, @RequestParam Date date)
+	{
+		return services.getListTransactionByAccountNumberAndDate(accountNumber, date);
+	}
+	
+	@PostMapping("transaction/balance")
+	public CustomErrorResponse postBalance(@Valid @RequestBody AddBalanceRequest request, 
+			UriComponentsBuilder builder, HttpServletRequest req) {
+		services.postBalance(request);
+		
+		String path = req.getRequestURI();
+		CustomErrorResponse message = new CustomErrorResponse(LocalDateTime.now(), HttpStatus.OK.value(), "add balance success", path);
+		
+		return message;
+	}
+	
+	@PostMapping("transaction/transfer")
+	public CustomErrorResponse postTransfer(@Valid @RequestBody AddTransferRequest request, 
+			UriComponentsBuilder builder, HttpServletRequest req) {
+		services.postTransfer(request);
+		
+		String path = req.getRequestURI();
+		CustomErrorResponse message = new CustomErrorResponse(LocalDateTime.now(), HttpStatus.OK.value(), "add balance", path);
+		
+		return message;
+	}
+	
+
+}

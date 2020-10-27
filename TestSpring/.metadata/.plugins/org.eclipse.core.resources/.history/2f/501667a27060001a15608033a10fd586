@@ -1,0 +1,84 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+
+public class AccountRequest {
+	
+	
+	
+	@NotEmpty(message = "Account may not be empty")
+	@Size(min = 6, max =6, message = "Account must be 6 length") 
+	private String account;
+	
+	@Valid @NotNull(message="Name can not be null")
+	@Size(min = 5, message = "Name minimum 5 character") 
+	private String name;
+	
+	@NotNull(message = "Balance may not be empty")
+	@Min(value = (long) 1000000.0, message = "insufience Balance")
+	private BigDecimal balance;
+
+	
+	public AccountRequest()
+	{
+		
+	}
+
+
+	public AccountRequest(@NotEmpty(message = "Account may not be empty") @Size(min = 6, max = 6, message = "Account must be 6 length") String account,
+			@Valid @NotNull(message = "Name can not be null") @Size(min = 5, message = "Name minimum 5 character") String name,
+			@NotNull(message = "Balance may not be empty") BigDecimal balance) {
+		super();
+		
+		this.account = account;
+		this.name = name;
+		this.balance = balance;
+	}
+
+
+
+	public String getAccount() {
+		return account;
+	}
+
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+
+
+	
+	
+	
+
+	
+
+	
+}

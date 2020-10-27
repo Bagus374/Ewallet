@@ -1,0 +1,58 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+public class AccountUpdate {
+	private Long id;
+	
+	@NotEmpty(message = "Account may not be empty")
+	@Size(min = 6, max =6, message = "Account must be 6 length") 
+	private String account;
+	
+	@NotNull(message = "Balance may not be empty")
+	private BigDecimal balance;
+	
+	private AccountUpdate() {
+		
+	}
+
+	public AccountUpdate(Long id,
+			@NotEmpty(message = "Account may not be empty") @Size(min = 6, max = 6, message = "Account must be 6 length") String account,
+			@NotNull(message = "Balance may not be empty") BigDecimal balance) {
+		super();
+		this.id = id;
+		this.account = account;
+		this.balance = balance;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+	
+	
+}

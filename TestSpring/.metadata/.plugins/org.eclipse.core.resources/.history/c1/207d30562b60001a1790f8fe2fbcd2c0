@@ -1,0 +1,12 @@
+package com.enigma.ewallet.controller;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@EnableAutoConfiguration
+@Validated
+public class TransactionController {
+
+}

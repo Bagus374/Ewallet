@@ -1,0 +1,6 @@
+package com.enigma.ewallet;
+
+@RunWith(SpringRunner.class)
+public class AccountServiceTest {
+
+}

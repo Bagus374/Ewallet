@@ -1,0 +1,5 @@
+package com.enigma.ewallet.repositories;
+
+public class AccountRepository {
+
+}

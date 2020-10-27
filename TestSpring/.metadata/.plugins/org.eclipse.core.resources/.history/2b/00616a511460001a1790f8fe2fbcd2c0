@@ -1,0 +1,30 @@
+package com.enigma.ewallet.dto;
+
+import java.math.BigDecimal;
+
+
+public class AccountDto {
+
+
+
+	private Integer account;
+
+	private String name;
+	
+
+	private BigDecimal balance;
+	
+
+	private Double point;
+	
+
+	private Integer status;
+	
+	public AccountDto()
+	{
+		
+	}
+
+
+	
+}
